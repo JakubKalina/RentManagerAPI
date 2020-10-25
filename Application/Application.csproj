@@ -10,6 +10,7 @@
     <PackageReference Include="EPPlus" Version="5.2.0" />
     <PackageReference Include="MailKit" Version="2.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="morelinq" Version="3.3.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,5 +21,18 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dtos\Address\Responses\" />
+    <Folder Include="Dtos\Address\Requests\" />
+    <Folder Include="Dtos\Document\Responses\" />
+    <Folder Include="Dtos\Document\Requests\" />
+    <Folder Include="Dtos\FlatInformation\Responses\" />
+    <Folder Include="Dtos\FlatInformation\Requests\" />
+    <Folder Include="Dtos\Payment\Responses\" />
+    <Folder Include="Dtos\Payment\Requests\" />
+    <Folder Include="Dtos\Tenancy\Responses\" />
+    <Folder Include="Dtos\Tenancy\Requests\" />
   </ItemGroup>
 </Project>

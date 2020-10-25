@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Application.Utilities;
 using Validation;
 using Validation.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Application.Services
 {
@@ -149,6 +151,30 @@ namespace Application.Services
 
             ErrorResultToReturn = new ErrorResult(Errors.EmailErrors.ErrorOccuredWhileSendingEmailWithConfirmationLink.SetParams(request.Email));
             throw new RestException(HttpStatusCode.BadRequest, ErrorResultToReturn);
+        }
+
+        public async Task<ServiceResponse<GetUsersResponse>> GetUsersAsync(GetUsersRequest request)
+        {
+            bool isQueryIncluded = !string.IsNullOrWhiteSpace(request.Query);
+
+            var dbQuery = Context.Users.Where(u => u.IsDeleted == false);
+
+            if (isQueryIncluded)
+            {
+                string queryToLower = request.Query.ToLower();
+                dbQuery = dbQuery.Where(u => u.Email.ToLower().Contains(queryToLower)
+                                             || u.LastName.ToLower().Contains(queryToLower)
+                                             || u.FirstName.ToLower().Contains(queryToLower)
+                                             || u.SearchId.ToLower().Contains(queryToLower));
+            }
+            var totalNumberOfItems = await dbQuery.CountAsync();
+
+            var users = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+
+            var usersDto= Mapper.Map<List<ApplicationUser>, List<UserForGetUsersResponse>>(users);
+
+            var response = new GetUsersResponse(request, usersDto, totalNumberOfItems);
+            return new ServiceResponse<GetUsersResponse>(HttpStatusCode.OK, response);
         }
     }
 }

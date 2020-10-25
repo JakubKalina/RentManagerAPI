@@ -7,10 +7,12 @@ namespace Validation.Utilities
         public static List<string> List = new List<string>
         {
             Administrator,
-            User
+            Landlord,
+            Tenant
         };
 #warning W przypadku dodania nowej roli należy tą zmianę odzwierciedlić w klasie Domain.Models.Role
         public const string Administrator = "Administrator";
-        public const string User = "User";
+        public const string Landlord = "Landlord";
+        public const string Tenant = "Tenant";
     }
 }

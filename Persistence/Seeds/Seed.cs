@@ -13,7 +13,7 @@ namespace Persistence.Seeds
         public static async Task SeedIdentity(DataContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             await SeedRoles(roleManager);
-            await SeedUsers(userManager, context);
+            //await SeedUsers(userManager, context);
             await SeedMaintenanceMessages(context);
         }
 
@@ -25,9 +25,15 @@ namespace Persistence.Seeds
                 await roleManager.CreateAsync(adminRole);
             }
 
-            if (!await roleManager.RoleExistsAsync(Role.User))
+            if (!await roleManager.RoleExistsAsync(Role.Landlord))
             {
-                var userRole = new IdentityRole(Role.User);
+                var userRole = new IdentityRole(Role.Landlord);
+                await roleManager.CreateAsync(userRole);
+            }
+
+            if (!await roleManager.RoleExistsAsync(Role.Tenant))
+            {
+                var userRole = new IdentityRole(Role.Tenant);
                 await roleManager.CreateAsync(userRole);
             }
         }
@@ -100,7 +106,7 @@ namespace Persistence.Seeds
                     var result = await userManager.CreateAsync(user, "Password123!");
                     if (result.Succeeded)
                     {
-                        await userManager.AddToRoleAsync(user, Role.User);
+                        await userManager.AddToRoleAsync(user, Role.Tenant);
                     }
                 }
             }

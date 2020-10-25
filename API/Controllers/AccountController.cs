@@ -4,6 +4,7 @@ using Application.Dtos.Account.Responses;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -70,6 +71,13 @@ namespace API.Controllers
         public async Task<IActionResult> ResendConfirmationEmail([FromBody] ResendConfirmationEmailRequest request)
         {
             var response = await _accountService.ResendConfirmationEmailAsync(request);
+            return SendResponse(response);
+        }
+
+        [HttpGet("users")]
+        public async Task<IActionResult> GetUsers([FromQuery] GetUsersRequest request)
+        {
+            var response = await _accountService.GetUsersAsync(request);
             return SendResponse(response);
         }
     }

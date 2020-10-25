@@ -8,8 +8,4 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Entities\Association\" />
-  </ItemGroup>
-
 </Project>

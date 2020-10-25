@@ -175,6 +175,16 @@ namespace API
             services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<ILogsService, LogsService>();
             services.AddTransient<IMaintenanceService, MaintenanceService>();
+            services.AddTransient<IMessageService, MessageService>();
+            services.AddTransient<IFlatService, FlatService>();
+            services.AddTransient<IRoomService, RoomService>();
+            services.AddTransient<IAddressService, AddressService>();
+            services.AddTransient<IDocumentService, DocumentService>();
+            services.AddTransient<IFlatInformationService, FlatInformationService>();
+            services.AddTransient<IPaymentService, PaymentService>();
+            services.AddTransient<IReportService, ReportService>();
+            services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<ITenancyService, TenancyService>();
         }
 
         private static void AddMvc(IServiceCollection services)

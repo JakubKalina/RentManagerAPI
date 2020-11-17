@@ -18,10 +18,18 @@ namespace Application.Interfaces
         Task<ServiceResponse<GetUserReviewsResponse>> GetUserReviewsAsync(GetUserReviewsRequest request);
 
         /// <summary>
-        /// Dodaje nową opinie o użytkowniku jeśli ten jest upoważniony do jej dodania
+        /// Dodaje nową opinię na temat zarządcy - dodaje ją najemca
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task<ServiceResponse> CreateUserReviewAsync(CreateUserReviewRequest request);
+        Task<ServiceResponse> CreateLandlordReviewAsync(CreateLandlordReviewRequest request);
+
+        /// <summary>
+        /// Dodaje nową opinię na temat najemcy - dodaje ją zarządca
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<ServiceResponse> CreateTenantReviewAsync(CreateTenantReviewRequest request);
+
     }
 }

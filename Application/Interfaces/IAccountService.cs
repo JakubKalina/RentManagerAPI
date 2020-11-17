@@ -7,6 +7,7 @@ namespace Application.Interfaces
 {
     public interface IAccountService
     {
+
         /// <summary>
         /// Zwraca szczegóły o koncie użytkownika, który wysyła request
         /// </summary>

@@ -69,7 +69,7 @@ namespace Application.Services
             return new ServiceResponse(HttpStatusCode.OK);
         }
 
-        public async Task<ServiceResponse<GetRoomsResponse>> GetRoomsAsync(int flatId)
+        public async Task<ServiceResponse<GetLandlordRoomsResponse>> GetLandlordRoomsAsync(int flatId)
         {
             string userId = CurrentlyLoggedUser.Id;
             var user = await GetEntityByIdAsync<ApplicationUser>(userId);
@@ -77,15 +77,15 @@ namespace Application.Services
             var flat = await GetEntityByIdAsync<Flat>(flatId);
             var flatLandlord = await Context.FlatLandlords.Where(fl => fl.UserId == userId && fl.FlatId == flat.Id).SingleOrDefaultAsync();
 
-            var response = new GetRoomsResponse();
+            var response = new GetLandlordRoomsResponse();
             if(flatLandlord != null)
             {
                 var rooms = flat.Rooms;
-                var roomsDto = Mapper.Map<IEnumerable<Room>, IEnumerable<RoomForGetRoomsResponse>>(rooms);
-                response.Rooms = roomsDto;
+                var roomsDto = Mapper.Map<IEnumerable<Room>, IEnumerable<RoomForGetLandlordRoomsResponse>>(rooms);
+                response.Data = roomsDto;
             }
 
-            return new ServiceResponse<GetRoomsResponse>(HttpStatusCode.OK, response);
+            return new ServiceResponse<GetLandlordRoomsResponse>(HttpStatusCode.OK, response);
         }
     }
 }

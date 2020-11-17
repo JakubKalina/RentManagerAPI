@@ -30,5 +30,29 @@ namespace API.Controllers
             var response = await _reportService.GetReportsAsync(request);
             return SendResponse(response);
         }
+
+        [Authorize(Roles = (Role.Landlord))]
+        [HttpPost]
+        public async Task<IActionResult> CreateReport(CreateReportRequest request)
+        {
+            var response = await _reportService.CreateReportAsync(request);
+            return SendResponse(response);
+        }
+
+        [Authorize(Roles = (Role.Landlord))]
+        [HttpDelete("{reportId}")]
+        public async Task<IActionResult> DeleteReport([FromQuery] int reportId)
+        {
+            var response = await _reportService.DeleteReportAsync(reportId);
+            return SendResponse(response);
+        }
+
+        [Authorize(Roles = (Role.Landlord))]
+        [HttpPut]
+        public async Task<IActionResult> UpdateReport(UpdateReportRequest request)
+        {
+            var response = await _reportService.UpdateReportAsync(request);
+            return SendResponse(response);
+        }
     }
 }

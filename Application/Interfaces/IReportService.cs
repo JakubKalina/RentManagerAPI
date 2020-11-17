@@ -18,5 +18,26 @@ namespace Application.Interfaces
         /// <param name="isArchived"></param>
         /// <returns></returns>
         Task<ServiceResponse<GetReportsResponse>> GetReportsAsync(GetReportsRequest request);
+
+        /// <summary>
+        /// Tworzy nowy raport przypsisany do mieszkania
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<ServiceResponse> CreateReportAsync(CreateReportRequest request);
+
+        /// <summary>
+        /// Edytuje istniejący raport przypisany do mieszkania
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<ServiceResponse> UpdateReportAsync(UpdateReportRequest request);
+
+        /// <summary>
+        /// Usuwa wybrany raport przypisany do mieszkania
+        /// </summary>
+        /// <param name="reportId"></param>
+        /// <returns></returns>
+        Task<ServiceResponse> DeleteReportAsync(int reportId);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Dtos.Message.Requests;
+using Application.Dtos.Message.Responses;
 using Application.Interfaces;
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -26,7 +27,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Produces(typeof(GetConversationsRequest))]
+        [Produces(typeof(GetConversationsResponse))]
         [HttpGet("conversations")]
         public async Task<IActionResult> GetConversations([FromQuery] GetConversationsRequest request)
         {
@@ -39,7 +40,7 @@ namespace API.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Produces(typeof(GetConversationMessagesRequest))]
+        [Produces(typeof(GetConversationMessagesResponse))]
         [HttpGet("conversation")]
         public async Task<IActionResult> GetConversationMessages([FromQuery] GetConversationMessagesRequest request)
         {

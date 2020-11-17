@@ -15,7 +15,7 @@ namespace Application.Interfaces
         /// </summary>
         /// <param name="flatId"></param>
         /// <returns></returns>
-        Task<ServiceResponse<GetRoomsResponse>> GetRoomsAsync(int flatId);
+        Task<ServiceResponse<GetLandlordRoomsResponse>> GetLandlordRoomsAsync(int flatId);
 
         /// <summary>
         /// Tworzy nowy pokój i przypisuje go do mieszkania

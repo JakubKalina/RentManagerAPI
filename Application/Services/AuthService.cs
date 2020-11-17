@@ -69,9 +69,14 @@ namespace Application.Services
                 UserName = request.Email
             };
 
+            // DODAĆ GENEROWANIE RANDOMOWEGO SEARCH ID 
+
+
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 #warning odkomentować na produkcje
-            //if (request.Roles.Contains(Role.Administrator))
-            //    throw new RestException(HttpStatusCode.Forbidden);
+            if (request.Roles.Contains(Role.Administrator))
+                throw new RestException(HttpStatusCode.Forbidden);
             await UserCreator.CreateUserAsync(UserManager, userToRegister, request.Password, request.Roles);
 
             var generatedEmailConfirmationToken =

@@ -21,6 +21,16 @@ namespace Application.Services
 
         }
 
+        public async Task<ServiceResponse> CreateReportAsync(CreateReportRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ServiceResponse> DeleteReportAsync(int reportId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ServiceResponse<GetReportsResponse>> GetReportsAsync(GetReportsRequest request)
         {
             string userId = CurrentlyLoggedUser.Id;
@@ -54,6 +64,11 @@ namespace Application.Services
 
             return new ServiceResponse<GetReportsResponse>(HttpStatusCode.OK, response);
 
+        }
+
+        public async Task<ServiceResponse> UpdateReportAsync(UpdateReportRequest request)
+        {
+            throw new NotImplementedException();
         }
     }
 }

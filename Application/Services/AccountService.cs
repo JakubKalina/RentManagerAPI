@@ -172,6 +172,12 @@ namespace Application.Services
             var users = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
 
             var usersDto= Mapper.Map<List<ApplicationUser>, List<UserForGetUsersResponse>>(users);
+            foreach(var userDto in usersDto)
+            {
+                var role = await Context.UserRoles.SingleOrDefaultAsync(ur => ur.UserId == userDto.Id);
+                var roleName = await Context.Roles.SingleOrDefaultAsync(r => r.Id == role.RoleId);
+                userDto.Role = roleName.Name;
+            }
 
             var response = new GetUsersResponse(request, usersDto, totalNumberOfItems);
             return new ServiceResponse<GetUsersResponse>(HttpStatusCode.OK, response);

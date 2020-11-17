@@ -19,7 +19,31 @@ namespace Application.Interfaces
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task<ServiceResponse<GetFlatsResponse>> GetFlatsAsync(GetFlatsRequest request);
+        //Task<ServiceResponse<GetFlatsResponse>> GetFlatsAsync(GetFlatsRequest request);
+
+
+
+        /// <summary>
+        /// Zwraca wszystkie mieszkania dla zarządcy
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<ServiceResponse<GetLandlordFlatsResponse>> GetLandlordFlatsAsync(GetLandlordFlatsRequest request);
+
+        /// <summary>
+        /// Zwraca dokładne informacje na temat wybranego mieszkania
+        /// </summary>
+        /// <param name="flatId"></param>
+        /// <returns></returns>
+        Task<ServiceResponse<GetFlatResponse>> GetFlatAsync(int flatId);
+
+        /// <summary>
+        /// Zwraca wszystkie mieszkania dla najemcy
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<ServiceResponse<GetTenantFlatsResponse>> GetTenantFlatsAsync(GetTenantFlatsRequest request);
+
 
         /// <summary>
         /// Tworzy nowe mieszkanie i przypisuje osobę tworzącą jako zarządcę

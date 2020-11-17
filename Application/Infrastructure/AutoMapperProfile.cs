@@ -17,6 +17,7 @@ using Application.Dtos.Flat.Responses;
 using Domain.Models;
 using Application.Dtos.Room.Responses;
 using Application.Dtos.Report.Responses;
+using Application.Dtos.Tenancy.Responses;
 
 namespace Application.Infrastructure
 {
@@ -30,7 +31,7 @@ namespace Application.Infrastructure
             MapsForLogs();
             MapsForMaintenance();
             MapsForMessage();
-            //MapsForReview();
+            MapsForReview();
             //MapsForAddress();
             //MapsForDocument();
             MapsForFlat();
@@ -38,17 +39,23 @@ namespace Application.Infrastructure
             //MapsForPayment();
             MapsForReport();
             MapsForRoom();
-            //MapsForTenancy();
+            MapsForTenancy();
         }
 
         private void MapsForTenancy()
         {
-            throw new NotImplementedException();
+            CreateMap<Tenancy, GetFlatTenancyResponse>();
+            CreateMap<Tenancy, GetFlatTenanciesResponse>();
+            CreateMap<Room, RoomForGetFlatTenanciesResponse>();
+            CreateMap<ApplicationUser, UserForGetFlatTenanciesResponse>();
+
+            CreateMap<Tenancy, GetUserTenanciesResponse>();
+            CreateMap<Room, RoomForGetUserTenanciesResponse>();
         }
 
         private void MapsForRoom()
         {
-            CreateMap<Room, RoomForGetRoomsResponse>();
+            CreateMap<Room, RoomForGetLandlordRoomsResponse>();
         }
 
         private void MapsForReport()
@@ -68,7 +75,7 @@ namespace Application.Infrastructure
 
         private void MapsForReview()
         {
-            throw new NotImplementedException();
+            CreateMap<Review , ReviewForGetUserReviewsResponse > ();
         }
 
         private void MapsForAddress()
@@ -83,8 +90,20 @@ namespace Application.Infrastructure
 
         private void MapsForFlat()
         {
-            CreateMap<Flat, FlatForGetFlatsResponse>();
-            CreateMap<Address, AddressForFlatForGetFlatsResponse>();
+            //CreateMap<Flat, FlatForGetFlatsResponse>();
+            //CreateMap<Address, AddressForFlatForGetFlatsResponse>();
+
+            // Landlord
+            CreateMap<Flat, FlatForGetLandlordFlatsResponse>();
+            CreateMap<Address, AddressForFlatForGetLandlordFlatsResponse>();
+
+            CreateMap<Flat, GetFlatResponse>();
+            CreateMap<Address, AddressForGetFlatResponse>();
+
+
+            // Tenant
+            CreateMap<Flat, FlatForGetTenantFlatsResponse>();
+            CreateMap<Address, AddressForFlatForGetTenantFlatsResponse>();
         }
 
         private void MapsForAddresses()

@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Application.Dtos.Room.Responses
 {
-    public class GetRoomsResponse
+    public class GetLandlordRoomsResponse
     {
-        public IEnumerable<RoomForGetRoomsResponse> Rooms { get; set; }
+        public IEnumerable<RoomForGetLandlordRoomsResponse> Data { get; set; }
     }
 
-    public class RoomForGetRoomsResponse
+    public class RoomForGetLandlordRoomsResponse
     {
         public int Id { get; set; }
         public string Name { get; set; }

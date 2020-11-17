@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Dtos.Review.Requests
+namespace Application.Dtos.Report.Requests
 {
-    public class CreateUserReviewRequest
+    public class UpdateReportRequest
     {
     }
 }

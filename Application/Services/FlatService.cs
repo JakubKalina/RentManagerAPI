@@ -73,50 +73,115 @@ namespace Application.Services
             return new ServiceResponse(HttpStatusCode.OK);
         }
 
-        public async Task<ServiceResponse<GetFlatsResponse>> GetFlatsAsync(GetFlatsRequest request)
+        public async Task<ServiceResponse<GetFlatResponse>> GetFlatAsync(int flatId)
         {
             string userId = CurrentlyLoggedUser.Id;
 
             var user = await GetEntityByIdAsync<ApplicationUser>(userId);
-            var role = await UserManager.GetRolesAsync(user);
+            var flatLandlord = await Context.FlatLandlords.SingleOrDefaultAsync(fl => fl.UserId == user.Id && fl.FlatId == flatId);
+            var flat = await Context.Flats.SingleOrDefaultAsync(f => f.Id == flatLandlord.FlatId);
+
+            var flatDto = Mapper.Map<Flat, GetFlatResponse>(flat);
+
+            return new ServiceResponse<GetFlatResponse>(HttpStatusCode.OK, flatDto);
+        }
+
+        //// zbedne
+        //public async Task<ServiceResponse<GetFlatsResponse>> GetFlatsAsync(GetFlatsRequest request)
+        //{
+        //    string userId = CurrentlyLoggedUser.Id;
+
+        //    var user = await GetEntityByIdAsync<ApplicationUser>(userId);
+        //    var role = await UserManager.GetRolesAsync(user);
+
+        //    IQueryable<Flat> dbQuery;
+        //    List<Flat> flats;
+        //    List<FlatForGetFlatsResponse> flatsDto = new List<FlatForGetFlatsResponse>();
+
+        //    int  totalNumberOfItems = 0;
+        //    switch (role.ElementAt(0))
+        //    {
+        //        case Role.Administrator:
+        //            dbQuery = Context.Flats;
+
+        //            totalNumberOfItems = await dbQuery.CountAsync();
+        //            flats = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+
+        //            flatsDto = Mapper.Map<IEnumerable<Flat>, IEnumerable<FlatForGetFlatsResponse>>(flats).ToList();
+        //            break;
+        //        case Role.Landlord:
+        //            dbQuery = Context.FlatLandlords.Where(fl => fl.UserId == user.Id).Select(fl => fl.Flat);
+
+        //            totalNumberOfItems = await dbQuery.CountAsync();
+        //            flats = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+
+        //            flatsDto = Mapper.Map<IEnumerable<Flat>, IEnumerable<FlatForGetFlatsResponse>>(flats).ToList();
+
+        //            break;
+
+        //        case Role.Tenant:
+        //            dbQuery = Context.Tenancies.Where(t => t.UserId == user.Id && t.EndDate < DateTime.Now).Select(t => t.Flat);
+        //            totalNumberOfItems = await dbQuery.CountAsync();
+        //            flats = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+        //            flatsDto = Mapper.Map<IEnumerable<Flat>, IEnumerable<FlatForGetFlatsResponse>>(flats).ToList();
+        //            break;
+        //    }
+
+        //    var response = new GetFlatsResponse(request, flatsDto, 0);
+
+        //    return new ServiceResponse<GetFlatsResponse>(HttpStatusCode.OK, response);
+
+        //}
+
+        public async Task<ServiceResponse<GetLandlordFlatsResponse>> GetLandlordFlatsAsync(GetLandlordFlatsRequest request)
+        {
+            string userId = CurrentlyLoggedUser.Id;
+
+            var user = await GetEntityByIdAsync<ApplicationUser>(userId);
 
             IQueryable<Flat> dbQuery;
             List<Flat> flats;
-            List<FlatForGetFlatsResponse> flatsDto = new List<FlatForGetFlatsResponse>();
+            List<FlatForGetLandlordFlatsResponse> flatsDto = new List<FlatForGetLandlordFlatsResponse>();
+            int totalNumberOfItems = 0;
 
-            int  totalNumberOfItems = 0;
-            switch (role.ElementAt(0))
-            {
-                case Role.Administrator:
-                    dbQuery = Context.Flats;
 
-                    totalNumberOfItems = await dbQuery.CountAsync();
-                    flats = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+            dbQuery = Context.FlatLandlords.Where(fl => fl.UserId == user.Id).Select(fl => fl.Flat);
 
-                    flatsDto = Mapper.Map<IEnumerable<Flat>, IEnumerable<FlatForGetFlatsResponse>>(flats).ToList();
-                    break;
-                case Role.Landlord:
-                    dbQuery = Context.FlatLandlords.Where(fl => fl.UserId == user.Id).Select(fl => fl.Flat);
+            totalNumberOfItems = await dbQuery.CountAsync();
+            flats = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
 
-                    totalNumberOfItems = await dbQuery.CountAsync();
-                    flats = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+            flatsDto = Mapper.Map<IEnumerable<Flat>, IEnumerable<FlatForGetLandlordFlatsResponse>>(flats).ToList();
 
-                    flatsDto = Mapper.Map<IEnumerable<Flat>, IEnumerable<FlatForGetFlatsResponse>>(flats).ToList();
+            var response = new GetLandlordFlatsResponse(request, flatsDto, 0);
 
-                    break;
+            return new ServiceResponse<GetLandlordFlatsResponse>(HttpStatusCode.OK, response);
+        }
 
-                case Role.Tenant:
-                    dbQuery = Context.Tenancies.Where(t => t.UserId == user.Id && t.EndDate < DateTime.Now).Select(t => t.Flat);
-                    totalNumberOfItems = await dbQuery.CountAsync();
-                    flats = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
-                    flatsDto = Mapper.Map<IEnumerable<Flat>, IEnumerable<FlatForGetFlatsResponse>>(flats).ToList();
-                    break;
-            }
+        public async Task<ServiceResponse<GetTenantFlatsResponse>> GetTenantFlatsAsync(GetTenantFlatsRequest request)
+        {
+            string userId = CurrentlyLoggedUser.Id;
 
-            var response = new GetFlatsResponse(request, flatsDto, 0);
+            var user = await GetEntityByIdAsync<ApplicationUser>(userId);
 
-            return new ServiceResponse<GetFlatsResponse>(HttpStatusCode.OK, response);
+            IQueryable<Flat> dbQuery;
+            List<Flat> flats;
+            List<FlatForGetTenantFlatsResponse> flatsDto = new List<FlatForGetTenantFlatsResponse>();
+            int totalNumberOfItems = 0;
 
+
+
+
+
+            dbQuery = Context.Tenancies.Where(t => t.UserId == user.Id && t.EndDate < DateTime.Now).Select(t => t.Flat);
+            totalNumberOfItems = await dbQuery.CountAsync();
+            flats = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+            flatsDto = Mapper.Map<IEnumerable<Flat>, IEnumerable<FlatForGetTenantFlatsResponse>>(flats).ToList();
+
+
+
+            var response = new GetTenantFlatsResponse(request, flatsDto, 0);
+
+            return new ServiceResponse<GetTenantFlatsResponse>(HttpStatusCode.OK, response);
         }
 
         public async Task<ServiceResponse> UpdateFlatAsync(UpdateFlatRequest request)

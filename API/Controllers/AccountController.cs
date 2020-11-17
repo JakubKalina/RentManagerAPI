@@ -19,6 +19,7 @@ namespace API.Controllers
             _accountService = accountService;
         }
 
+
         [Produces(typeof(Response<GetAccountDetailsResponse>))]
         [HttpGet("details")]
         public async Task<IActionResult> GetAccountDetails()
@@ -35,13 +36,13 @@ namespace API.Controllers
             return SendResponse(response);
         }
 
-        [AllowAnonymous]
-        [HttpGet("confirm-email")]
-        public async Task<IActionResult> ConfirmEmail([FromQuery] string userId, [FromQuery] string confirmationCode)
-        {
-            var response = await _accountService.ConfirmEmailAsync(userId, confirmationCode);
-            return SendResponse(response);
-        }
+        //[AllowAnonymous]
+        //[HttpGet("confirm-email")]
+        //public async Task<IActionResult> ConfirmEmail([FromQuery] string userId, [FromQuery] string confirmationCode)
+        //{
+        //    var response = await _accountService.ConfirmEmailAsync(userId, confirmationCode);
+        //    return SendResponse(response);
+        //}
 
         [HttpPost("change-password")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
@@ -50,29 +51,29 @@ namespace API.Controllers
             return SendResponse(response);
         }
 
-        [AllowAnonymous]
-        [HttpPost("forgot-password")]
-        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
-        {
-            var response = await _accountService.ForgotPasswordAsync(request);
-            return SendResponse(response);
-        }
+        //[AllowAnonymous]
+        //[HttpPost("forgot-password")]
+        //public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
+        //{
+        //    var response = await _accountService.ForgotPasswordAsync(request);
+        //    return SendResponse(response);
+        //}
 
-        [AllowAnonymous]
-        [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
-        {
-            var response = await _accountService.ResetPasswordAsync(request);
-            return SendResponse(response);
-        }
+        //[AllowAnonymous]
+        //[HttpPost("reset-password")]
+        //public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+        //{
+        //    var response = await _accountService.ResetPasswordAsync(request);
+        //    return SendResponse(response);
+        //}
 
-        [AllowAnonymous]
-        [HttpPost("resend-confirmation-email")]
-        public async Task<IActionResult> ResendConfirmationEmail([FromBody] ResendConfirmationEmailRequest request)
-        {
-            var response = await _accountService.ResendConfirmationEmailAsync(request);
-            return SendResponse(response);
-        }
+        //[AllowAnonymous]
+        //[HttpPost("resend-confirmation-email")]
+        //public async Task<IActionResult> ResendConfirmationEmail([FromBody] ResendConfirmationEmailRequest request)
+        //{
+        //    var response = await _accountService.ResendConfirmationEmailAsync(request);
+        //    return SendResponse(response);
+        //}
 
         [HttpGet("users")]
         public async Task<IActionResult> GetUsers([FromQuery] GetUsersRequest request)

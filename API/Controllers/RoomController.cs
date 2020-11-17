@@ -22,12 +22,12 @@ namespace API.Controllers
             _roomService = roomService;
         }
 
-        [Produces(typeof(GetRoomsResponse))]
+        [Produces(typeof(GetLandlordRoomsResponse))]
         [Authorize(Roles = (Role.Landlord))]
-        [HttpGet("{flatId}")]
-        public async Task<IActionResult> GetRooms([FromRoute] int flatId)
+        [HttpGet("{flatId}/landlord")]
+        public async Task<IActionResult> GetLandlordRooms([FromRoute] int flatId)
         {
-            var response = await _roomService.GetRoomsAsync(flatId);
+            var response = await _roomService.GetLandlordRoomsAsync(flatId);
             return SendResponse(response);
         }
 

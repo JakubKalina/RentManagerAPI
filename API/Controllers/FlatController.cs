@@ -27,14 +27,46 @@ namespace API.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Produces(typeof(GetFlatsResponse))]
-        [Authorize(Roles = (Role.Administrator + "," + Role.Tenant + "," + Role.Landlord) )]
-        [HttpGet]
-        public async Task<IActionResult> GetFlats([FromQuery] GetFlatsRequest request)
+        //[Produces(typeof(GetFlatsResponse))]
+        //[Authorize(Roles = (Role.Administrator + "," + Role.Tenant + "," + Role.Landlord) )]
+        //[HttpGet]
+        //public async Task<IActionResult> GetFlats([FromQuery] GetFlatsRequest request)
+        //{
+        //    var response = await _flatService.GetFlatsAsync(request);
+        //    return SendResponse(response);
+        //}
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [Produces(typeof(GetLandlordFlatsResponse))]
+        [Authorize(Roles = (Role.Landlord))]
+        [HttpGet("landlord")]
+        public async Task<IActionResult> GetLandlordFlats([FromQuery] GetLandlordFlatsRequest request)
         {
-            var response = await _flatService.GetFlatsAsync(request);
+            var response = await _flatService.GetLandlordFlatsAsync(request);
             return SendResponse(response);
         }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [Produces(typeof(GetTenantFlatsResponse))]
+        [Authorize(Roles = (Role.Landlord))]
+        [HttpGet("tenant")]
+        public async Task<IActionResult> GetTenantFlats([FromQuery] GetTenantFlatsRequest request)
+        {
+            var response = await _flatService.GetTenantFlatsAsync(request);
+            return SendResponse(response);
+        }
+
 
         /// <summary>
         /// Zwraca informacje szczegółowe na temat wybranego mieszkania
@@ -42,13 +74,12 @@ namespace API.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [Produces(typeof(GetFlatResponse))]
-        [Authorize(Roles = (Role.Administrator + "," + Role.Tenant + "," + Role.Landlord))]
+        [Authorize(Roles = (Role.Landlord))]
         [HttpGet("{flatId}")]
-        public async Task<IActionResult> GetFlat([FromQuery] int flatId)
+        public async Task<IActionResult> GetFlat([FromRoute] int flatId)
         {
-            throw new NotImplementedException();
-            //var response = await _flatService.GetFlatAsync(flatId);
-            //return SendResponse(response);
+            var response = await _flatService.GetFlatAsync(flatId);
+            return SendResponse(response);
         }
 
         /// <summary>
@@ -70,7 +101,7 @@ namespace API.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPut]
-        [Authorize(Roles = (Role.Administrator + "," + Role.Landlord))]
+        [Authorize(Roles = (Role.Landlord))]
         public async Task<IActionResult> UpdateFlat([FromBody] UpdateFlatRequest request)
         {
             var response = await _flatService.UpdateFlatAsync(request);
@@ -83,7 +114,7 @@ namespace API.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpDelete("{flatId}")]
-        [Authorize(Roles = (Role.Administrator + "," + Role.Landlord))]
+        [Authorize(Roles = (Role.Landlord))]
         public async Task<IActionResult> DeleteFlat([FromRoute] int flatId)
         {
             var response = await _flatService.DeleteFlatAsync(flatId);

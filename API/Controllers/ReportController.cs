@@ -31,17 +31,35 @@ namespace API.Controllers
             return SendResponse(response);
         }
 
+        [Produces(typeof(GetFlatReportsResponse))]
         [Authorize(Roles = (Role.Landlord))]
-        [HttpPost]
-        public async Task<IActionResult> CreateReport(CreateReportRequest request)
+        [HttpGet("flat")]
+        public async Task<IActionResult> GetFlatReports([FromQuery] GetFlatReportsRequest request)
         {
-            var response = await _reportService.CreateReportAsync(request);
+            var response = await _reportService.GetFlatReportsAsync(request);
             return SendResponse(response);
         }
 
         [Authorize(Roles = (Role.Landlord))]
+        [HttpPost("landlord")]
+        public async Task<IActionResult> CreateLandlordReport(CreateLandlordReportRequest request)
+        {
+            var response = await _reportService.CreateLandlordReportAsync(request);
+            return SendResponse(response);
+        }
+
+
+        [Authorize(Roles = (Role.Tenant))]
+        [HttpPost("tenant")]
+        public async Task<IActionResult> CreateTenantReport(CreateTenantReportRequest request)
+        {
+            var response = await _reportService.CreateTenantReportAsync(request);
+            return SendResponse(response);
+        }
+
+        [Authorize(Roles = (Role.Landlord + "," + Role.Tenant))]
         [HttpDelete("{reportId}")]
-        public async Task<IActionResult> DeleteReport([FromQuery] int reportId)
+        public async Task<IActionResult> DeleteReport([FromRoute] int reportId)
         {
             var response = await _reportService.DeleteReportAsync(reportId);
             return SendResponse(response);

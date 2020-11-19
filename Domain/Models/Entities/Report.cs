@@ -16,7 +16,7 @@ namespace Domain.Models
 
         public DateTime CreatedAt { get; set; }
 
-        public string Status { get; set; }
+        public string Type { get; set; }
 
         public int FlatId { get; set; }
         public virtual Flat Flat { get; set; }

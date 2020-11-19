@@ -5,15 +5,15 @@ using System.Text;
 
 namespace Application.Dtos.Report.Responses
 {
-    public class GetReportsResponse : PagedResponse<ReportForGetReportsResponse>
+    public class GetFlatReportsResponse : PagedResponse<ReportForGetFlatReportsResponse>
     {
-        public GetReportsResponse(PaginationQuery request, IEnumerable<ReportForGetReportsResponse> data, int totalNumberOfItems) : base(request, data, totalNumberOfItems)
+        public GetFlatReportsResponse(PaginationQuery request, IEnumerable<ReportForGetFlatReportsResponse> data, int totalNumberOfItems) : base(request, data, totalNumberOfItems)
         {
 
         }
     }
 
-    public class ReportForGetReportsResponse
+    public class ReportForGetFlatReportsResponse
     {
         public int Id { get; set; }
 
@@ -25,7 +25,9 @@ namespace Application.Dtos.Report.Responses
 
         public string Type { get; set; }
 
-        public string FlatDescription { get; set; }
+        public int FlatId { get; set; }
+
+        public string SenderId { get; set; }
 
         public string SenderFirstName { get; set; }
 

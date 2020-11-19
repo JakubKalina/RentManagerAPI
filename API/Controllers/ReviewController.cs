@@ -22,10 +22,11 @@ namespace API.Controllers
         }
 
         [Produces(typeof(GetUserReviewsResponse))]
-        [HttpGet]
-        public async Task<IActionResult> GetUserReviews([FromQuery] GetUserReviewsRequest request)
+        [Authorize(Roles = (Role.Landlord))]
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserReviews([FromRoute] string userId)
         {
-            var response = await _reviewService.GetUserReviewsAsync(request);
+            var response = await _reviewService.GetUserReviewsAsync(userId);
             return SendResponse(response);
         }
 

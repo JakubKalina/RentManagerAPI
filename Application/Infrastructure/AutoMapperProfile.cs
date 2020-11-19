@@ -61,6 +61,9 @@ namespace Application.Infrastructure
         private void MapsForReport()
         {
             CreateMap<Report, ReportForGetReportsResponse>();
+
+            CreateMap<Report, ReportForGetFlatReportsResponse>();
+
         }
 
         private void MapsForPayment()
@@ -156,6 +159,8 @@ namespace Application.Infrastructure
         /// </summary>
         private void MapsForAccount()
         {
+            CreateMap<ApplicationUser, GetUserDetailsResponse>();
+
             CreateMap<ApplicationUser, GetAccountDetailsResponse>();
 
             CreateMap<UpdateAccountDetailsRequest, ApplicationUser>();

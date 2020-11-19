@@ -182,5 +182,24 @@ namespace Application.Services
             var response = new GetUsersResponse(request, usersDto, totalNumberOfItems);
             return new ServiceResponse<GetUsersResponse>(HttpStatusCode.OK, response);
         }
+
+        public async Task<ServiceResponse<GetUserDetailsResponse>> GetUserDetailsAsync(string userId)
+        {
+            var user = await GetEntityByIdAsync<ApplicationUser>(userId);
+
+            if(user != null)
+            {
+                var userDto = Mapper.Map<ApplicationUser, GetUserDetailsResponse>(user);
+
+
+                var role = await Context.UserRoles.SingleOrDefaultAsync(ur => ur.UserId == userDto.Id);
+                var roleName = await Context.Roles.SingleOrDefaultAsync(r => r.Id == role.RoleId);
+                userDto.Role = roleName.Name;
+                return new ServiceResponse<GetUserDetailsResponse>(HttpStatusCode.OK, payload: userDto);
+            }
+
+
+            return new ServiceResponse<GetUserDetailsResponse>(HttpStatusCode.OK, payload: new GetUserDetailsResponse());
+        }
     }
 }

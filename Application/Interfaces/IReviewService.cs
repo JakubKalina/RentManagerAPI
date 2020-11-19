@@ -15,7 +15,7 @@ namespace Application.Interfaces
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task<ServiceResponse<GetUserReviewsResponse>> GetUserReviewsAsync(GetUserReviewsRequest request);
+        Task<ServiceResponse<GetUserReviewsResponse>> GetUserReviewsAsync(string userId);
 
         /// <summary>
         /// Dodaje nową opinię na temat zarządcy - dodaje ją najemca

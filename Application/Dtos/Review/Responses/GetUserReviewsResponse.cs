@@ -5,12 +5,9 @@ using System.Text;
 
 namespace Application.Dtos.Review.Responses
 {
-    public class GetUserReviewsResponse : PagedResponse<ReviewForGetUserReviewsResponse>
+    public class GetUserReviewsResponse
     {
-        public GetUserReviewsResponse(PaginationQuery request, IEnumerable<ReviewForGetUserReviewsResponse> data, int totalNumberOfItems) : base(request, data, totalNumberOfItems)
-        {
-
-        }
+        public IEnumerable<ReviewForGetUserReviewsResponse> Data { get; set; }
     }
 
     public class ReviewForGetUserReviewsResponse

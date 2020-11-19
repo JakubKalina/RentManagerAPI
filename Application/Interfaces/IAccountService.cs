@@ -15,6 +15,12 @@ namespace Application.Interfaces
         Task<ServiceResponse<GetAccountDetailsResponse>> GetAccountDetailsAsync();
 
         /// <summary>
+        /// Zwraca szczegóły o koncie użytkownika którego Id wysyłamy
+        /// </summary>
+        /// <returns></returns>
+        Task<ServiceResponse<GetUserDetailsResponse>> GetUserDetailsAsync(string userId);
+
+        /// <summary>
         /// Zwraca wyniki wyszukiwania użytkowników
         /// </summary>
         /// <param name="request"></param>

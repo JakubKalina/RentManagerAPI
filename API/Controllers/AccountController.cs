@@ -28,6 +28,17 @@ namespace API.Controllers
             return SendResponse(response);
         }
 
+
+        [Produces(typeof(Response<GetUserDetailsResponse>))]
+        [HttpGet("details/{userId}")]
+        public async Task<IActionResult> GetUserDetails([FromRoute] string userId)
+        {
+            var response = await _accountService.GetUserDetailsAsync(userId);
+            return SendResponse(response);
+        }
+
+
+
         [Produces(typeof(Response<UpdateAccountDetailsResponse>))]
         [HttpPut("details")]
         public async Task<IActionResult> UpdateAccountDetails([FromBody] UpdateAccountDetailsRequest request)

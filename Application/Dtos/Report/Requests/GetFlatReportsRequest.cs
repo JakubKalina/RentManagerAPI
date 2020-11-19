@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Application.Dtos.Report.Requests
 {
-    public class GetReportsRequest : PaginationQuery
+    public class GetFlatReportsRequest : PaginationQuery
     {
+        public int FlatId { get; set; }
     }
 }

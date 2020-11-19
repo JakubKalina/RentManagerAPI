@@ -107,22 +107,14 @@ namespace Application.Services
             }
         }
 
-        public async Task<ServiceResponse<GetUserReviewsResponse>> GetUserReviewsAsync(GetUserReviewsRequest request)
+        public async Task<ServiceResponse<GetUserReviewsResponse>> GetUserReviewsAsync(string userId)
         {
-            string userId = CurrentlyLoggedUser.Id;
+            var reviews = await Context.Reviews.Where(r => r.UserToId == userId).ToListAsync();
 
-            // Jeśli nie podano użytkownika to zwróć opinie dla użytkownika zalogowanego
-            if (request.UserId == null)
-                request.UserId = userId;
+            var reviewsDto = Mapper.Map<IEnumerable<Review>, IEnumerable<ReviewForGetUserReviewsResponse>>(reviews);
 
-            var dbQuery = Context.Reviews.Where(r => r.UserToId == request.UserId);
-
-            var totalNumberOfItems = await dbQuery.CountAsync();
-            var reviews = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
-
-            var reviewsDto = Mapper.Map<IEnumerable<Review>, IEnumerable<ReviewForGetUserReviewsResponse>>(reviews).ToList();
-
-            var response = new GetUserReviewsResponse(request, reviewsDto, totalNumberOfItems);
+            var response = new GetUserReviewsResponse();
+            response.Data = reviewsDto;
 
             return new ServiceResponse<GetUserReviewsResponse>(HttpStatusCode.OK, response);
         }

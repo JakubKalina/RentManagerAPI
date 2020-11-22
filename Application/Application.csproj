@@ -30,7 +30,5 @@
     <Folder Include="Dtos\Document\Requests\" />
     <Folder Include="Dtos\FlatInformation\Responses\" />
     <Folder Include="Dtos\FlatInformation\Requests\" />
-    <Folder Include="Dtos\Payment\Responses\" />
-    <Folder Include="Dtos\Payment\Requests\" />
   </ItemGroup>
 </Project>

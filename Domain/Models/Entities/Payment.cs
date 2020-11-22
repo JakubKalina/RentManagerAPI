@@ -17,7 +17,15 @@ namespace Domain.Models.Entities
 
         public DateTime CreatedAt { get; set; }
 
-        public string RepeatEvery { get; set; }
+        /// <summary>
+        /// Do kiedy należy uiścić opłatę
+        /// </summary>
+        public DateTime DueDate { get; set; }
+
+        /// <summary>
+        /// Czy oplacono
+        /// </summary>
+        public bool IsPaid { get; set; }
 
         public string RecipientAccountNumber { get; set; }
 

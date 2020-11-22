@@ -46,7 +46,7 @@ namespace Application.Interfaces
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task<ServiceResponse> UpdateReportAsync(UpdateReportRequest request);
+        //Task<ServiceResponse> UpdateReportAsync(UpdateReportRequest request);
 
         /// <summary>
         /// Usuwa wybrany raport przypisany do mieszkania

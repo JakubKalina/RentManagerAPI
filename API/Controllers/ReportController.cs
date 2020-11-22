@@ -65,12 +65,12 @@ namespace API.Controllers
             return SendResponse(response);
         }
 
-        [Authorize(Roles = (Role.Landlord))]
-        [HttpPut]
-        public async Task<IActionResult> UpdateReport(UpdateReportRequest request)
-        {
-            var response = await _reportService.UpdateReportAsync(request);
-            return SendResponse(response);
-        }
+        //[Authorize(Roles = (Role.Landlord))]
+        //[HttpPut]
+        //public async Task<IActionResult> UpdateReport(UpdateReportRequest request)
+        //{
+        //    var response = await _reportService.UpdateReportAsync(request);
+        //    return SendResponse(response);
+        //}
     }
 }

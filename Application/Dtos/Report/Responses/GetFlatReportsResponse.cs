@@ -11,6 +11,8 @@ namespace Application.Dtos.Report.Responses
         {
 
         }
+        public int FlatId { get; set; }
+
     }
 
     public class ReportForGetFlatReportsResponse
@@ -25,7 +27,7 @@ namespace Application.Dtos.Report.Responses
 
         public string Type { get; set; }
 
-        public int FlatId { get; set; }
+        //public int FlatId { get; set; }
 
         public string SenderId { get; set; }
 

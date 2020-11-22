@@ -18,6 +18,7 @@ using Domain.Models;
 using Application.Dtos.Room.Responses;
 using Application.Dtos.Report.Responses;
 using Application.Dtos.Tenancy.Responses;
+using Application.Dtos.Payment.Responses;
 
 namespace Application.Infrastructure
 {
@@ -32,11 +33,10 @@ namespace Application.Infrastructure
             MapsForMaintenance();
             MapsForMessage();
             MapsForReview();
-            //MapsForAddress();
             //MapsForDocument();
             MapsForFlat();
             //MapsForFlatInformation();
-            //MapsForPayment();
+            MapsForPayment();
             MapsForReport();
             MapsForRoom();
             MapsForTenancy();
@@ -68,7 +68,12 @@ namespace Application.Infrastructure
 
         private void MapsForPayment()
         {
-            throw new NotImplementedException();
+            CreateMap<Payment, PaymentForGetFlatPaymentsResponse>();
+            CreateMap<ApplicationUser, UserForPaymentForGetFlatPaymentsResponse>();
+
+            CreateMap<Payment, PaymentForGetTenantPaymentsResponse>();
+            CreateMap<ApplicationUser, UserForPaymentForGetTenantPaymentsResponse>();
+            CreateMap<Flat, FlatForPaymentForGetTenantPaymentsResponse>();
         }
 
         private void MapsForFlatInformation()
@@ -109,10 +114,6 @@ namespace Application.Infrastructure
             CreateMap<Address, AddressForFlatForGetTenantFlatsResponse>();
         }
 
-        private void MapsForAddresses()
-        {
-            throw new NotImplementedException();
-        }
 
         private void MapsForReviews()
         {

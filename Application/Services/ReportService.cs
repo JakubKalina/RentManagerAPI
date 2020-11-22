@@ -117,6 +117,7 @@ namespace Application.Services
                 }
             }
             var response = new GetFlatReportsResponse(request, reportsDto, totalNumberOfItems);
+            response.FlatId = flat.Id;
             return new ServiceResponse<GetFlatReportsResponse>(HttpStatusCode.OK, response);
         }
 
@@ -155,9 +156,9 @@ namespace Application.Services
             return new ServiceResponse<GetReportsResponse>(HttpStatusCode.OK, response);
         }
 
-        public async Task<ServiceResponse> UpdateReportAsync(UpdateReportRequest request)
-        {
-            throw new NotImplementedException();
-        }
+        //public async Task<ServiceResponse> UpdateReportAsync(UpdateReportRequest request)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

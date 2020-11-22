@@ -32,10 +32,6 @@ namespace Application.Services
 
             if(flatLandlord != null)
             {
-                //var existingTenancy = await Context.Tenancies.Where(t => t.FlatId == request.flatId && t.UserId == request.UserId).SingleOrDefaultAsync();
-
-                //if(existingTenancy == null)
-                //{
                     var flat = await GetEntityByIdAsync<Flat>(request.flatId);
                     var user = await GetEntityByIdAsync<ApplicationUser>(request.UserId);
 

@@ -7,11 +7,6 @@ namespace Application.Dtos.Payment.Responses
 {
     public class GetTenantPaymentsResponse
     {
-        public IList<PaymentForGetTenantPaymentsResponse> Data { get; set; }
-    }
-
-    public class PaymentForGetTenantPaymentsResponse
-    {
         public int Id { get; set; }
 
         public string Title { get; set; }
@@ -28,18 +23,18 @@ namespace Application.Dtos.Payment.Responses
 
         public string RecipientAccountNumber { get; set; }
 
-        public virtual FlatForPaymentForGetTenantPaymentsResponse Flat { get; set; }
+        public virtual FlatForGetTenantPaymentsResponse Flat { get; set; }
 
-        public virtual UserForPaymentForGetTenantPaymentsResponse User { get; set; }
+        public virtual UserForGetTenantPaymentsResponse User { get; set; }
     }
 
-    public class FlatForPaymentForGetTenantPaymentsResponse
+    public class FlatForGetTenantPaymentsResponse
     {
         public int Id { get; set; }
         public string Description { get; set; }
     }
 
-    public class UserForPaymentForGetTenantPaymentsResponse
+    public class UserForGetTenantPaymentsResponse
     {
         public string Id { get; set; }
         public string SearchId { get; set; }

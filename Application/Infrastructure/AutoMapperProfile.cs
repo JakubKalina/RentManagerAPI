@@ -68,12 +68,12 @@ namespace Application.Infrastructure
 
         private void MapsForPayment()
         {
-            CreateMap<Payment, PaymentForGetFlatPaymentsResponse>();
-            CreateMap<ApplicationUser, UserForPaymentForGetFlatPaymentsResponse>();
+            CreateMap<Payment, GetFlatPaymentsResponse>();
+            CreateMap<ApplicationUser, UserForGetFlatPaymentsResponse>();
 
-            CreateMap<Payment, PaymentForGetTenantPaymentsResponse>();
-            CreateMap<ApplicationUser, UserForPaymentForGetTenantPaymentsResponse>();
-            CreateMap<Flat, FlatForPaymentForGetTenantPaymentsResponse>();
+            CreateMap<Payment, GetTenantPaymentsResponse>();
+            CreateMap<ApplicationUser, UserForGetTenantPaymentsResponse>();
+            CreateMap<Flat, FlatForGetTenantPaymentsResponse>();
         }
 
         private void MapsForFlatInformation()

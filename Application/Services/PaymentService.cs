@@ -80,7 +80,28 @@ namespace Application.Services
             }
         }
 
-        public async Task<ServiceResponse<GetFlatPaymentsResponse>> GetFlatPaymentsAsync(int flatId)
+        public async Task<ServiceResponse> DeletePaymentAsync(int paymentId)
+        {
+            string userId = CurrentlyLoggedUser.Id;
+
+            var landlord = await GetEntityByIdAsync<ApplicationUser>(userId);
+
+            var payment = await Context.Payments.SingleOrDefaultAsync(p => p.Id == paymentId);
+            var flatLandlord = await Context.FlatLandlords.Where(fl => fl.UserId == landlord.Id && fl.FlatId == payment.FlatId).SingleOrDefaultAsync();
+
+            if (flatLandlord != null)
+            {
+                Context.Payments.Remove(payment);
+                await SaveChangesAsync(new[] { $"Wystąpił błąd podczas usuwania opłaty" });
+                return new ServiceResponse(HttpStatusCode.OK);
+            }
+            else
+            {
+                throw new RestException(HttpStatusCode.BadRequest);
+            }
+        }
+
+        public async Task<ServiceResponse<IList<GetFlatPaymentsResponse>>> GetFlatPaymentsAsync(int flatId)
         {
             string userId = CurrentlyLoggedUser.Id;
 
@@ -88,37 +109,37 @@ namespace Application.Services
 
             var flatLandlord = await Context.FlatLandlords.Where(fl => fl.UserId == landlord.Id && fl.FlatId == flatId).SingleOrDefaultAsync();
 
-            GetFlatPaymentsResponse response = new GetFlatPaymentsResponse();
+            IList<GetFlatPaymentsResponse> response = new List<GetFlatPaymentsResponse>();
             // Jeżeli zalogowana osoba jest zarządcą
             if (flatLandlord != null)
             {
-                var payments = await Context.Payments.Where(p => p.FlatId == flatId).ToListAsync();
+                var payments = await Context.Payments.Where(p => p.FlatId == flatId && p.IsPaid == false).ToListAsync();
 
-                var paymentsDto = Mapper.Map<IList<Payment>, IList<PaymentForGetFlatPaymentsResponse>>(payments);
-                response.Data = paymentsDto;
+                var paymentsDto = Mapper.Map<IList<Payment>, IList<GetFlatPaymentsResponse>>(payments);
+                response = paymentsDto;
             }
 
-            return new ServiceResponse<GetFlatPaymentsResponse>(HttpStatusCode.OK, response);
+            return new ServiceResponse<IList<GetFlatPaymentsResponse>>(HttpStatusCode.OK, response);
         }
 
-        public async Task<ServiceResponse<GetTenantPaymentsResponse>> GetTenantPaymentsAsync()
+        public async Task<ServiceResponse<IList<GetTenantPaymentsResponse>>> GetTenantPaymentsAsync()
         {
             string userId = CurrentlyLoggedUser.Id;
 
             var tenancies = await Context.Tenancies.Where(t => t.EndDate > DateTime.Now && t.UserId == userId).ToListAsync();
 
-            GetTenantPaymentsResponse response = new GetTenantPaymentsResponse();
-            response.Data = new List<PaymentForGetTenantPaymentsResponse>();
+            IList<GetTenantPaymentsResponse> response = new List<GetTenantPaymentsResponse>();
+            response = new List<GetTenantPaymentsResponse>();
 
-            var tenatPayments = await Context.Payments.Where(p => p.UserId == userId).ToListAsync();
+            var tenatPayments = await Context.Payments.Where(p => p.UserId == userId && p.IsPaid == false).ToListAsync();
 
             foreach(var tenantPayment in tenatPayments)
             {
-                var paymentDto = Mapper.Map<Payment, PaymentForGetTenantPaymentsResponse>(tenantPayment);
-                response.Data.Add(paymentDto);
+                var paymentDto = Mapper.Map<Payment, GetTenantPaymentsResponse>(tenantPayment);
+                response.Add(paymentDto);
             }
 
-            return new ServiceResponse<GetTenantPaymentsResponse>(HttpStatusCode.OK, response);
+            return new ServiceResponse<IList<GetTenantPaymentsResponse>>(HttpStatusCode.OK, response);
         }
 
         public async Task<ServiceResponse> UpdatePaymentAsync(UpdatePaymentRequest request)

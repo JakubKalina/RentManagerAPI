@@ -16,7 +16,7 @@ namespace Application.Interfaces
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task<ServiceResponse<GetTenantPaymentsResponse>> GetTenantPaymentsAsync();
+        Task<ServiceResponse<IList<GetTenantPaymentsResponse>>> GetTenantPaymentsAsync();
 
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Application.Interfaces
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task<ServiceResponse<GetFlatPaymentsResponse>> GetFlatPaymentsAsync(int flatId);
+        Task<ServiceResponse<IList<GetFlatPaymentsResponse>>> GetFlatPaymentsAsync(int flatId);
 
 
         /// <summary>
@@ -41,6 +41,14 @@ namespace Application.Interfaces
         /// <param name="request"></param>
         /// <returns></returns>
         Task<ServiceResponse> UpdatePaymentAsync(UpdatePaymentRequest request);
+
+
+        /// <summary>
+        /// Usunięcie istniejącej płatności
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<ServiceResponse> DeletePaymentAsync(int paymentId);
 
     }
 }

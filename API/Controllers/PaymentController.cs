@@ -57,6 +57,14 @@ namespace API.Controllers
             return SendResponse(response);
         }
 
+        [Authorize(Roles = (Role.Landlord))]
+        [HttpDelete("{paymentId}")]
+        public async Task<IActionResult> DeletePayment([FromRoute] int paymentId)
+        {
+            var response = await _paymentService.DeletePaymentAsync(paymentId);
+            return SendResponse(response);
+        }
+
 
     }
 }

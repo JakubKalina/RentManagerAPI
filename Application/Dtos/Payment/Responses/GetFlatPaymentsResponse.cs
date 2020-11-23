@@ -7,11 +7,6 @@ namespace Application.Dtos.Payment.Responses
 {
     public class GetFlatPaymentsResponse
     {
-        public IEnumerable<PaymentForGetFlatPaymentsResponse> Data { get; set; }
-    }
-
-    public class PaymentForGetFlatPaymentsResponse
-    {
         public int Id { get; set; }
 
         public string Title { get; set; }
@@ -28,10 +23,10 @@ namespace Application.Dtos.Payment.Responses
 
         public string RecipientAccountNumber { get; set; }
 
-        public virtual UserForPaymentForGetFlatPaymentsResponse User { get; set; }
+        public virtual UserForGetFlatPaymentsResponse User { get; set; }
     }
 
-    public class UserForPaymentForGetFlatPaymentsResponse
+    public class UserForGetFlatPaymentsResponse
     {
         public string Id { get; set; }
         public string SearchId { get; set; }

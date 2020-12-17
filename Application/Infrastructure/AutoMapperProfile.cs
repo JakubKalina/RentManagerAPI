@@ -76,30 +76,16 @@ namespace Application.Infrastructure
             CreateMap<Flat, FlatForGetTenantPaymentsResponse>();
         }
 
-        private void MapsForFlatInformation()
-        {
-            throw new NotImplementedException();
-        }
-
         private void MapsForReview()
         {
             CreateMap<Review , ReviewForGetUserReviewsResponse > ();
         }
 
-        private void MapsForAddress()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void MapsForDocument()
-        {
-            throw new NotImplementedException();
-        }
-
         private void MapsForFlat()
         {
-            //CreateMap<Flat, FlatForGetFlatsResponse>();
-            //CreateMap<Address, AddressForFlatForGetFlatsResponse>();
+            // Admin
+            CreateMap<Flat, FlatForGetAdminFlatsResponse>();
+            CreateMap<Address, AddressForFlatForGetAdminFlatsResponse>();
 
             // Landlord
             CreateMap<Flat, FlatForGetLandlordFlatsResponse>();

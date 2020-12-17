@@ -23,7 +23,7 @@ namespace API.Controllers
         }
 
         [Produces(typeof(GetReportsResponse))]
-        [Authorize(Roles = (Role.Landlord))]
+        [Authorize(Roles = (Role.Landlord + "," + Role.Tenant))]
         [HttpGet]
         public async Task<IActionResult> GetReports([FromQuery] GetReportsRequest request)
         {

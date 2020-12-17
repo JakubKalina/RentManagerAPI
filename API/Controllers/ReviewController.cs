@@ -22,7 +22,7 @@ namespace API.Controllers
         }
 
         [Produces(typeof(GetUserReviewsResponse))]
-        [Authorize(Roles = (Role.Landlord))]
+        [Authorize(Roles = (Role.Landlord + "," + Role.Tenant + "," + Role.Administrator))]
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetUserReviews([FromRoute] string userId)
         {

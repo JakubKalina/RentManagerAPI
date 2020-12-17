@@ -25,7 +25,8 @@ namespace Application.Services
         {
             string userId = CurrentlyLoggedUser.Id;
 
-            var dbQuery = Context.Messages.Where(m => m.UserFromId == userId || m.UserFromId == request.RecipientId || m.UserToId == userId || m.UserToId == request.RecipientId);
+            //var dbQuery = Context.Messages.Where(m => m.UserFromId == userId || m.UserFromId == request.RecipientId || m.UserToId == userId || m.UserToId == request.RecipientId);
+            var dbQuery = Context.Messages.Where(m => (m.UserToId == userId && m.UserFromId == request.RecipientId) || (m.UserFromId == userId && m.UserToId == request.RecipientId));
 
             var totalNumberOfItems = await dbQuery.CountAsync();
             var messages = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
@@ -41,7 +42,10 @@ namespace Application.Services
         {
             string userId = CurrentlyLoggedUser.Id;
 
-            var dbQuery = Context.Messages.Where(m => m.UserFromId == userId || m.UserToId == userId).DistinctBy(m => new { m.UserFromId, m.UserToId }).Select(m => new { m.UserFromId, m.UserToId, m.Timestamp, m.Content }).ToList();
+            var dbQuery = Context.Messages.Where(m => m.UserFromId == userId || m.UserToId == userId)
+                .DistinctBy(m => new { m.UserFromId, m.UserToId })
+                .Select(m => new { m.UserFromId, m.UserToId, m.Timestamp, m.Content })
+                .ToList();
 
             IList<ConversationForGetConversationsResponse> data = new List<ConversationForGetConversationsResponse>();
             foreach (var message in dbQuery)

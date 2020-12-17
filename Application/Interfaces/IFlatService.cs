@@ -10,17 +10,14 @@ namespace Application.Interfaces
 {
     public interface IFlatService
     {
+
+
         /// <summary>
-        /// Zwraca wszystkie mieszkania
-        /// W zależności od roli użytkownika zwraca
-        /// Admin - wszystkie mieszkania
-        /// Landlord - wszystkie mieszkania którymi zarządza
-        /// Tenant - wszystkie mieszkania do których jest przypisany
+        /// Zwraca wszystkie mieszkania dla admina
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        //Task<ServiceResponse<GetFlatsResponse>> GetFlatsAsync(GetFlatsRequest request);
-
+        Task<ServiceResponse<GetAdminFlatsResponse>> GetAdminFlatsAsync(GetAdminFlatsRequest request);
 
 
         /// <summary>

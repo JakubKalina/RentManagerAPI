@@ -86,52 +86,6 @@ namespace Application.Services
             return new ServiceResponse<GetFlatResponse>(HttpStatusCode.OK, flatDto);
         }
 
-        //// zbedne
-        //public async Task<ServiceResponse<GetFlatsResponse>> GetFlatsAsync(GetFlatsRequest request)
-        //{
-        //    string userId = CurrentlyLoggedUser.Id;
-
-        //    var user = await GetEntityByIdAsync<ApplicationUser>(userId);
-        //    var role = await UserManager.GetRolesAsync(user);
-
-        //    IQueryable<Flat> dbQuery;
-        //    List<Flat> flats;
-        //    List<FlatForGetFlatsResponse> flatsDto = new List<FlatForGetFlatsResponse>();
-
-        //    int  totalNumberOfItems = 0;
-        //    switch (role.ElementAt(0))
-        //    {
-        //        case Role.Administrator:
-        //            dbQuery = Context.Flats;
-
-        //            totalNumberOfItems = await dbQuery.CountAsync();
-        //            flats = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
-
-        //            flatsDto = Mapper.Map<IEnumerable<Flat>, IEnumerable<FlatForGetFlatsResponse>>(flats).ToList();
-        //            break;
-        //        case Role.Landlord:
-        //            dbQuery = Context.FlatLandlords.Where(fl => fl.UserId == user.Id).Select(fl => fl.Flat);
-
-        //            totalNumberOfItems = await dbQuery.CountAsync();
-        //            flats = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
-
-        //            flatsDto = Mapper.Map<IEnumerable<Flat>, IEnumerable<FlatForGetFlatsResponse>>(flats).ToList();
-
-        //            break;
-
-        //        case Role.Tenant:
-        //            dbQuery = Context.Tenancies.Where(t => t.UserId == user.Id && t.EndDate < DateTime.Now).Select(t => t.Flat);
-        //            totalNumberOfItems = await dbQuery.CountAsync();
-        //            flats = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
-        //            flatsDto = Mapper.Map<IEnumerable<Flat>, IEnumerable<FlatForGetFlatsResponse>>(flats).ToList();
-        //            break;
-        //    }
-
-        //    var response = new GetFlatsResponse(request, flatsDto, 0);
-
-        //    return new ServiceResponse<GetFlatsResponse>(HttpStatusCode.OK, response);
-
-        //}
 
         public async Task<ServiceResponse<GetLandlordFlatsResponse>> GetLandlordFlatsAsync(GetLandlordFlatsRequest request)
         {
@@ -172,7 +126,7 @@ namespace Application.Services
 
 
 
-            dbQuery = Context.Tenancies.Where(t => t.UserId == user.Id && t.EndDate < DateTime.Now).Select(t => t.Flat);
+            dbQuery = Context.Tenancies.Where(t => t.UserId == user.Id && t.EndDate > DateTime.Now).Select(t => t.Flat);
             totalNumberOfItems = await dbQuery.CountAsync();
             flats = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
             flatsDto = Mapper.Map<IEnumerable<Flat>, IEnumerable<FlatForGetTenantFlatsResponse>>(flats).ToList();
@@ -201,6 +155,30 @@ namespace Application.Services
 
             await SaveChangesAsync(new[] { $"Wystąpił błąd podczas edycji danych mieszkania" });
             return new ServiceResponse(HttpStatusCode.OK);
+        }
+
+        public async Task<ServiceResponse<GetAdminFlatsResponse>> GetAdminFlatsAsync(GetAdminFlatsRequest request)
+        {
+            string userId = CurrentlyLoggedUser.Id;
+
+            var user = await GetEntityByIdAsync<ApplicationUser>(userId);
+
+            IQueryable<Flat> dbQuery;
+            List<Flat> flats;
+            List<FlatForGetAdminFlatsResponse> flatsDto = new List<FlatForGetAdminFlatsResponse>();
+            int totalNumberOfItems = 0;
+
+
+            dbQuery = Context.Flats;
+
+            totalNumberOfItems = await dbQuery.CountAsync();
+            flats = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+
+            flatsDto = Mapper.Map<IEnumerable<Flat>, IEnumerable<FlatForGetAdminFlatsResponse>>(flats).ToList();
+
+            var response = new GetAdminFlatsResponse(request, flatsDto, 0);
+
+            return new ServiceResponse<GetAdminFlatsResponse>(HttpStatusCode.OK, response);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Application.Interfaces
     public interface IReportService
     {
         /// <summary>
-        /// Zwraca wszystkie raporty dla wszystkich mieszkań zarządcy
+        /// Zwraca wszystkie raporty dla wszystkich mieszkań zarządcy oraz wszystkich mieszkań najemcy
         /// Posiada flagę określającą czy mają to być raporty aktualne czy archiwizowane
         /// </summary>
         /// <param name="flatId"></param>

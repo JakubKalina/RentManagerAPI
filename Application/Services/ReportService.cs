@@ -126,34 +126,74 @@ namespace Application.Services
             string userId = CurrentlyLoggedUser.Id;
             var user = await GetEntityByIdAsync<ApplicationUser>(userId);
 
-            var flatLandlordIds = await Context.FlatLandlords.Where(fl => fl.UserId == userId).Select(fl => fl.FlatId).ToListAsync();
-
-            IQueryable<Report> dbQuery;
-            List<Report> reports;
-            List<ReportForGetReportsResponse> reportsDto = new List<ReportForGetReportsResponse>();
-
-            int totalNumberOfItems = 0;
-            if (flatLandlordIds.Count > 0)
+            var roles = await UserManager.GetRolesAsync(CurrentlyLoggedUser);
+            if(roles.Contains(Role.Tenant))
             {
+                var userTenancies = await Context.Tenancies.Where(t => t.UserId == userId).Select(t => t.FlatId).ToListAsync();
 
-                dbQuery = Context.Reports.Where(r => flatLandlordIds.Contains(r.FlatId));
+                IQueryable<Report> dbQuery;
+                List<Report> reports;
+                List<ReportForGetReportsResponse> reportsDto = new List<ReportForGetReportsResponse>();
 
-                totalNumberOfItems = await dbQuery.CountAsync();
-                reports = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+                int totalNumberOfItems = 0;
 
-                foreach (var report in reports)
+                if( userTenancies.Count > 0)
                 {
-                    var createdByUser = await GetEntityByIdAsync<ApplicationUser>(report.SenderId);
-                    var flat = await GetEntityByIdAsync<Flat>(report.FlatId);
-                    var reportDto = Mapper.Map<Report, ReportForGetReportsResponse>(report);
-                    reportDto.FlatDescription = flat.Description;
-                    reportDto.SenderFirstName = createdByUser.FirstName;
-                    reportDto.SenderLastName = createdByUser.LastName;
-                    reportsDto.Add(reportDto);
+                    dbQuery = Context.Reports.Where(r => userTenancies.Contains(r.FlatId));
+
+                    totalNumberOfItems = await dbQuery.CountAsync();
+                    reports = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+
+                    foreach (var report in reports)
+                    {
+                        var createdByUser = await GetEntityByIdAsync<ApplicationUser>(report.SenderId);
+                        var flat = await GetEntityByIdAsync<Flat>(report.FlatId);
+                        var reportDto = Mapper.Map<Report, ReportForGetReportsResponse>(report);
+                        reportDto.FlatDescription = flat.Description;
+                        reportDto.SenderFirstName = createdByUser.FirstName;
+                        reportDto.SenderLastName = createdByUser.LastName;
+                        reportsDto.Add(reportDto);
+                    }
                 }
+                var response = new GetReportsResponse(request, reportsDto, totalNumberOfItems);
+                return new ServiceResponse<GetReportsResponse>(HttpStatusCode.OK, response);
+
             }
-            var response = new GetReportsResponse(request, reportsDto, totalNumberOfItems);
-            return new ServiceResponse<GetReportsResponse>(HttpStatusCode.OK, response);
+            else if(roles.Contains(Role.Landlord))
+            {
+                var flatLandlordIds = await Context.FlatLandlords.Where(fl => fl.UserId == userId).Select(fl => fl.FlatId).ToListAsync();
+
+                IQueryable<Report> dbQuery;
+                List<Report> reports;
+                List<ReportForGetReportsResponse> reportsDto = new List<ReportForGetReportsResponse>();
+
+                int totalNumberOfItems = 0;
+                if (flatLandlordIds.Count > 0)
+                {
+
+                    dbQuery = Context.Reports.Where(r => flatLandlordIds.Contains(r.FlatId));
+
+                    totalNumberOfItems = await dbQuery.CountAsync();
+                    reports = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+
+                    foreach (var report in reports)
+                    {
+                        var createdByUser = await GetEntityByIdAsync<ApplicationUser>(report.SenderId);
+                        var flat = await GetEntityByIdAsync<Flat>(report.FlatId);
+                        var reportDto = Mapper.Map<Report, ReportForGetReportsResponse>(report);
+                        reportDto.FlatDescription = flat.Description;
+                        reportDto.SenderFirstName = createdByUser.FirstName;
+                        reportDto.SenderLastName = createdByUser.LastName;
+                        reportsDto.Add(reportDto);
+                    }
+                }
+                var response = new GetReportsResponse(request, reportsDto, totalNumberOfItems);
+                return new ServiceResponse<GetReportsResponse>(HttpStatusCode.OK, response);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         //public async Task<ServiceResponse> UpdateReportAsync(UpdateReportRequest request)

@@ -22,19 +22,21 @@ namespace API.Controllers
             _flatService = flatService;
         }
 
+
         /// <summary>
-        /// Zwraca wszyskie mieszkania w zależności od roli
+        /// 
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        //[Produces(typeof(GetFlatsResponse))]
-        //[Authorize(Roles = (Role.Administrator + "," + Role.Tenant + "," + Role.Landlord) )]
-        //[HttpGet]
-        //public async Task<IActionResult> GetFlats([FromQuery] GetFlatsRequest request)
-        //{
-        //    var response = await _flatService.GetFlatsAsync(request);
-        //    return SendResponse(response);
-        //}
+        [Produces(typeof(GetAdminFlatsResponse))]
+        [Authorize(Roles = (Role.Administrator))]
+        [HttpGet("admin")]
+        public async Task<IActionResult> GetAdminFlats([FromQuery] GetAdminFlatsRequest request)
+        {
+            var response = await _flatService.GetAdminFlatsAsync(request);
+            return SendResponse(response);
+        }
+
 
 
         /// <summary>
@@ -59,7 +61,7 @@ namespace API.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [Produces(typeof(GetTenantFlatsResponse))]
-        [Authorize(Roles = (Role.Landlord))]
+        [Authorize(Roles = (Role.Tenant))]
         [HttpGet("tenant")]
         public async Task<IActionResult> GetTenantFlats([FromQuery] GetTenantFlatsRequest request)
         {

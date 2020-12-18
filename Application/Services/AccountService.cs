@@ -17,11 +17,9 @@ namespace Application.Services
 {
     public class AccountService : Service, IAccountService
     {
-        private readonly IEmailService _emailService;
 
-        public AccountService(IServiceProvider serviceProvider, IEmailService emailService) : base(serviceProvider)
+        public AccountService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            _emailService = emailService;
         }
 
         public async Task<ServiceResponse<GetAccountDetailsResponse>> GetAccountDetailsAsync()
@@ -99,7 +97,7 @@ namespace Application.Services
             }
 
             var passwordResetToken = await UserManager.GeneratePasswordResetTokenAsync(user);
-            var emailServiceResponse = await _emailService.SendPasswordResetEmailAsync(user, passwordResetToken, request.UrlToIncludeInEmail, request.Language);
+            ServiceResponse emailServiceResponse = null;
 
             return emailServiceResponse;
         }
@@ -141,13 +139,9 @@ namespace Application.Services
             }
 
             var generatedEmailConfirmationToken = await UserManager.GenerateEmailConfirmationTokenAsync(user);
-            var sendEmailResponse = await _emailService.SendEmailAfterRegistrationAsync(user, generatedEmailConfirmationToken,
-                request.UrlToIncludeInEmail, request.Language);
 
-            if (sendEmailResponse.ResponseType == HttpStatusCode.OK)
-            {
                 return new ServiceResponse(HttpStatusCode.OK);
-            }
+            
 
             ErrorResultToReturn = new ErrorResult(Errors.EmailErrors.ErrorOccuredWhileSendingEmailWithConfirmationLink.SetParams(request.Email));
             throw new RestException(HttpStatusCode.BadRequest, ErrorResultToReturn);

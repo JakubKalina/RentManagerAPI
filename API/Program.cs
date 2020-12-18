@@ -7,7 +7,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using Persistence;
-using Persistence.Seeds;
 
 using System;
 using System.Threading.Tasks;
@@ -45,7 +44,6 @@ namespace API
                 var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-                await Seed.SeedIdentity(context, userManager, roleManager);
             }
             catch (Exception exception)
             {

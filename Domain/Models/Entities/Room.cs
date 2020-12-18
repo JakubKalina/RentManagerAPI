@@ -17,8 +17,6 @@ namespace Domain.Models
 
         public virtual ICollection<Payment> Payments { get; set; }
 
-        public virtual ICollection<Document> Documents { get; set; }
-
         public virtual ICollection<Tenancy> Tenancies { get; set; }
 
     }

@@ -196,9 +196,5 @@ namespace Application.Services
             }
         }
 
-        //public async Task<ServiceResponse> UpdateReportAsync(UpdateReportRequest request)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

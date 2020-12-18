@@ -18,8 +18,6 @@ namespace Domain.Models.Entities
 
         public virtual ICollection<Report> Reports { get; set; }
 
-        public virtual ICollection<Document> Documents { get; set; }
-
         public virtual ICollection<FlatInformation> FlatInformations { get; set; }
 
         public virtual ICollection<Tenancy> Tenancies { get; set; }

@@ -31,16 +31,6 @@ namespace API.Controllers
         }
 
 
-        // Endpoitn zwracający wystawioną już opinię przez zalogowanego użytkownika na temat danej osoby i wtedy nie możemy dodać nowej opinii, możemy tylko edytować już wystawioną
-
-        //[Produces(typeof(GetUserReviewsResponse))]
-        //[HttpGet]
-        //public async Task<IActionResult> GetUserReview([FromQuery] GetUserReviewsRequest request)
-        //{
-        //    var response = await _reviewService.GetUserReviewsAsync(request);
-        //    return SendResponse(response);
-        //}
-
         [Authorize(Roles = (Role.Landlord))]
         [HttpPost("landlord")]
         public async Task<IActionResult> CreateTenantReview([FromBody] CreateTenantReviewRequest request)
@@ -57,7 +47,6 @@ namespace API.Controllers
             return SendResponse(response);
         }
 
-        // rodzielić powyższy endpoint na dwa: dla landlorda i dla tenanta
 
     }
 }

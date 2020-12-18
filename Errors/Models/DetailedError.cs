@@ -22,17 +22,13 @@ namespace Validation.Models
         {
             get
             {
-                // zlicz ile jest wymaganych parametrów na podstawie DescriptionFormattera (zlicza {0}, {1} itd)
                 var requiredParams = Regex.Matches(DescriptionFormatter, @"(?<!\{)\{([0-9]+).*?\}(?!})").Cast<Match>();
 
-                // jeśli są jakieś wymagane parametry
                 if (requiredParams.Any())
                 {
-                    // sprawdź czy ErrorParameters nie jest nullem
                     if (ErrorParameters == null)
                         throw new ArgumentException($"Nie podano parametrów do formattera");
 
-                    // sprawdź, czy liczba parametrów podanych i oczekiwanych się zgadza
                     if (requiredParams.Count() != ErrorParameters.Count())
                         throw new ArgumentException($"Nieprawidłowa liczba parametrów formatowania wiadomości zwrotnej. Podano {ErrorParameters.Count()} zamiast ${requiredParams.Count()}");
 

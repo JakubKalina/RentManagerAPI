@@ -25,7 +25,6 @@ namespace Application.Services
         {
             string userId = CurrentlyLoggedUser.Id;
 
-            //var dbQuery = Context.Messages.Where(m => m.UserFromId == userId || m.UserFromId == request.RecipientId || m.UserToId == userId || m.UserToId == request.RecipientId);
             var dbQuery = Context.Messages.Where(m => (m.UserToId == userId && m.UserFromId == request.RecipientId) || (m.UserFromId == userId && m.UserToId == request.RecipientId));
 
             var totalNumberOfItems = await dbQuery.CountAsync();

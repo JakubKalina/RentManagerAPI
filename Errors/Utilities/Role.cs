@@ -10,7 +10,6 @@ namespace Validation.Utilities
             Landlord,
             Tenant
         };
-#warning W przypadku dodania nowej roli należy tą zmianę odzwierciedlić w klasie Domain.Models.Role
         public const string Administrator = "Administrator";
         public const string Landlord = "Landlord";
         public const string Tenant = "Tenant";

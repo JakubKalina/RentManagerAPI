@@ -33,9 +33,7 @@ namespace Application.Infrastructure
             MapsForMaintenance();
             MapsForMessage();
             MapsForReview();
-            //MapsForDocument();
             MapsForFlat();
-            //MapsForFlatInformation();
             MapsForPayment();
             MapsForReport();
             MapsForRoom();

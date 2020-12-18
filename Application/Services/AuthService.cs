@@ -21,12 +21,10 @@ namespace Application.Services
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IJwtGenerator _jwtGenerator;
-        private readonly IEmailService _emailService;
 
-        public AuthService(IServiceProvider serviceProvider, SignInManager<ApplicationUser> signInManager, IJwtGenerator jwtGenerator, IEmailService emailService) : base(serviceProvider)
+        public AuthService(IServiceProvider serviceProvider, SignInManager<ApplicationUser> signInManager, IJwtGenerator jwtGenerator) : base(serviceProvider)
         {
             _jwtGenerator = jwtGenerator;
-            _emailService = emailService;
             _signInManager = signInManager;
         }
 
@@ -69,12 +67,6 @@ namespace Application.Services
                 UserName = request.Email
             };
 
-            // DODAĆ GENEROWANIE RANDOMOWEGO SEARCH ID 
-
-
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-#warning odkomentować na produkcje
             if (request.Roles.Contains(Role.Administrator))
                 throw new RestException(HttpStatusCode.Forbidden);
             await UserCreator.CreateUserAsync(UserManager, userToRegister, request.Password, request.Roles);
@@ -82,12 +74,9 @@ namespace Application.Services
             var generatedEmailConfirmationToken =
                 await UserManager.GenerateEmailConfirmationTokenAsync(userToRegister);
 
-            var sendEmailResult = await _emailService.SendEmailAfterRegistrationAsync(userToRegister, generatedEmailConfirmationToken, request.UrlToIncludeInEmail, request.Language);
 
             var emailErrors = new List<string>();
 
-            if (sendEmailResult.ResponseType != HttpStatusCode.OK)
-                emailErrors = sendEmailResult.Errors.ToList();
 
             var token = await _jwtGenerator.CreateTokenAsync(userToRegister);
             var response = new RegisterResponse

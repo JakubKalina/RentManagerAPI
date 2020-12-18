@@ -169,7 +169,6 @@ namespace API
 
         private static void AddApplicationServices(IServiceCollection services)
         {
-            services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IAdminService, AdminService>();
@@ -178,9 +177,6 @@ namespace API
             services.AddTransient<IMessageService, MessageService>();
             services.AddTransient<IFlatService, FlatService>();
             services.AddTransient<IRoomService, RoomService>();
-            services.AddTransient<IAddressService, AddressService>();
-            services.AddTransient<IDocumentService, DocumentService>();
-            services.AddTransient<IFlatInformationService, FlatInformationService>();
             services.AddTransient<IPaymentService, PaymentService>();
             services.AddTransient<IReportService, ReportService>();
             services.AddTransient<IReviewService, ReviewService>();

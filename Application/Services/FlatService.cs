@@ -122,10 +122,6 @@ namespace Application.Services
             List<FlatForGetTenantFlatsResponse> flatsDto = new List<FlatForGetTenantFlatsResponse>();
             int totalNumberOfItems = 0;
 
-
-
-
-
             dbQuery = Context.Tenancies.Where(t => t.UserId == user.Id && t.EndDate > DateTime.Now).Select(t => t.Flat);
             totalNumberOfItems = await dbQuery.CountAsync();
             flats = await dbQuery.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();

@@ -15,7 +15,6 @@ namespace Persistence
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<MaintenanceMessage> MaintenanceMessages { get; set; }
         public DbSet<Address> Addresses { get; set; }
-        public DbSet<Document> Documents { get; set; }
         public DbSet<Flat> Flats { get; set; }
         public DbSet<FlatInformation> FlatInformations { get; set; }
         public DbSet<Message> Messages { get; set; }
@@ -34,14 +33,12 @@ namespace Persistence
             builder.Entity<ApplicationUser>()
                 .HasKey(x => x.Id);
 
-            // Dla wiadomości i użytkowników
             builder.Entity<Message>()
                 .HasOne(m => m.UserFrom).WithMany(u => u.SentMessages).HasForeignKey(m => m.UserFromId);
 
             builder.Entity<Message>()
                 .HasOne(m => m.UserTo).WithMany(u => u.ReceivedMessages).HasForeignKey(m => m.UserToId);
 
-            // Dla opinii i użytkowników
             builder.Entity<Review>()
                 .HasOne(m => m.UserFrom).WithMany(u => u.SentReviews).HasForeignKey(m => m.UserFromId);
 

@@ -26,9 +26,5 @@
   <ItemGroup>
     <Folder Include="Dtos\Address\Responses\" />
     <Folder Include="Dtos\Address\Requests\" />
-    <Folder Include="Dtos\Document\Responses\" />
-    <Folder Include="Dtos\Document\Requests\" />
-    <Folder Include="Dtos\FlatInformation\Responses\" />
-    <Folder Include="Dtos\FlatInformation\Requests\" />
   </ItemGroup>
 </Project>

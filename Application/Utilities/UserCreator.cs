@@ -12,15 +12,7 @@ namespace Application.Utilities
 {
     public static class UserCreator
     {
-        /// <summary>
-        /// Metoda pomocnicza do tworzenia użytkowników, stworzona na potrzeby wyparcia błędów wbudowanych w ASP.NET Identity
-        /// Automatycznie sprawdza zajętość adresu email oraz sprawdza rezultaty utworzenia użytkownika oraz przypisania do ról
-        /// </summary>
-        /// <param name="password"></param>
-        /// <param name="requestRoles"></param>
-        /// <param name="userManager"></param>
-        /// <param name="userToCreate"></param>
-        /// <returns></returns>
+
         public static async Task CreateUserAsync(UserManager<ApplicationUser> userManager, ApplicationUser userToCreate, string password,
             List<string> requestRoles)
         {

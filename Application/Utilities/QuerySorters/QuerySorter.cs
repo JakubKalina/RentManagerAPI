@@ -2,6 +2,6 @@
 {
     public class QuerySorter
     {
-        public static readonly string InvalidParameterErrorMessage = "Nieprawidłowy parametr sortowania";
+        public static readonly string InvalidParameterErrorMessage = "Nieprawidłowy argument sortowania";
     }
 }

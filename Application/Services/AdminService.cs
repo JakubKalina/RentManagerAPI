@@ -19,11 +19,9 @@ namespace Application.Services
 {
     public class AdminService : Service, IAdminService
     {
-        private readonly IEmailService _emailService;
 
-        public AdminService(IServiceProvider serviceProvider, IEmailService emailService) : base(serviceProvider)
+        public AdminService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            _emailService = emailService;
         }
 
         public async Task<ServiceResponse<GetUsersResponse>> GetUsersAsync(GetUsersRequest request)
@@ -85,12 +83,8 @@ namespace Application.Services
             var generatedEmailConfirmationToken =
                 await UserManager.GenerateEmailConfirmationTokenAsync(userToRegister);
 
-            var sendEmailResult = await _emailService.SendEmailAfterRegistrationAsync(userToRegister, generatedEmailConfirmationToken, request.UrlToIncludeInEmail, request.Language);
-
             var emailErrors = new List<string>();
 
-            if (sendEmailResult.ResponseType != HttpStatusCode.OK)
-                emailErrors = sendEmailResult.Errors.ToList();
 
             var userDtoToReturn = Mapper.Map<ApplicationUser, CreateUserResponse>(userToRegister);
             userDtoToReturn.Roles = request.Roles;
